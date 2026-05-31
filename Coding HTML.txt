@@ -1,0 +1,259 @@
+npx create-next-app@latest dhifa-tyo-anniversary --typescript --tailwind --eslint
+cd dhifa-tyo-anniversary
+npm install framer-motion lucide-react react-qrcode canvas-confetti clsx tailwind-merge
+// data/config.ts
+
+export const siteConfig = {
+  // Identitas Pasangan
+  coupleName: {
+    girl: "Dhifa",
+    boy: "Tyo",
+  },
+  
+  // Keamanan
+  password: "0612", // Ganti dengan sandi yang diinginkan
+  
+  // Tanggal Jadian
+  anniversaryDate: "2025-12-06T00:00:00", // Format: Tahun-Bulan-Tanggal
+  
+  // Metadata Website untuk QR Code
+  siteUrl: "https://dhifa-tyo-anniversary.vercel.app", // Ganti dengan URL deployed Anda
+  
+  // Konten Romantis
+  heroTitle: "Happy 6 Month Anniversary",
+  heroSubtitle: "06 Desember 2025 menjadi awal dari kisah yang tak pernah ingin aku akhiri. Terima kasih telah menjadi bagian terindah dalam setiap hariku.",
+  
+  // Surat Cinta
+  loveLetter: [
+    "Enam bulan yang telah kita lewati mungkin terlihat singkat bagi sebagian orang, tetapi bagiku setiap hari bersamamu adalah perjalanan yang penuh makna.",
+    "Terima kasih karena selalu hadir dengan senyuman, perhatian, dan cinta yang membuat hariku terasa lebih indah. Bersamamu, aku belajar bahwa kebahagiaan tidak selalu datang dari hal-hal besar, melainkan dari momen sederhana yang kita ciptakan bersama.",
+    "Aku bersyukur karena semesta mempertemukan kita pada waktu yang tepat.Semoga langkah yang telah kita mulai sejak 06 Desember 2025 ini terus berjalan dengan penuh kebahagiaan, kesetiaan, dan cinta yang semakin tumbuh setiap harinya.",
+    "Terima kasih telah menjadi bagian terindah dalam hidupku. Happy 6 Month Anniversary, sayang. ❤️"
+  ],
+  
+  // Timeline
+  timeline: [
+    { title: "Pertemuan Pertama", date: "18 Oktober 2025", desc: "Awal yang tidak pernah aku duga, karena selama ini aku berprinsip untuk sendiri sampai beberapa tahun kedepan. Namun, saat kamu hadir semua kehidupan dan planingku berubah drastis" },
+    { title: "Chat Pertama", date: "8 Oktober 2025", desc: "Awal dari segalanya" },
+    { title: "Resmi BerPasangan", date: "06 Des 2025", desc: "Mulai perjalanan ini" },
+    { title: "Bulan Keenam", date: "06 Jun 2026", desc: " Masih Di Sisi Yang Sama ❤️" },
+  ],
+  
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Untukmu</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <label>
+            <div class="heart">
+                <img src="https://raw.githubusercontent.com/DzarelDeveloper/Img/main/lope.png">
+            </div>
+            <input id="messageState" type="checkbox" style="display:none">
+        </label>
+        <div class="message">
+            <h1>Untuk Kamuu</h1>
+            <p>Aku ingin memberitahumu banyak hal, tentang betapa aku sangat mencintaimu dan takut kehilangan dirimu. Aku minta maaf kalau selama ini aku sering merepotkan kamu dengan Semua tingkahku. Tapi semoga kamu tau, aku selalu mengupayakan semua yang terbaik untukmu. Hubungan ini sering kali naik dan turun ada pasang dan surutnya. Tapi apapun yang terjadi aku ingin kita tetap saling memiliki..
+            <br><br>Mari kita tidak pernah lelah untuk saling memperbaiki, karena aku tak ingin bersama orang lain selain dirimu. Jika ada yang kurang, mari kita lengkapi bersama. Jika ada yang salah, mari kita temukan kebenarannya, berdua.
+            <br><br>Bersamamu, aku belajar bahwa hidup ini tentang bersyukur dan merasa cukup. Jika kita terus mencari kesempurnaan, kita akan kehilangan orang yang selalu ada untuk kita. Aku tak ingin belajar mencintai orang lain; Izinkan aku untuk terus mencintaimu, berulang kali. Aku yakin, kita bisa saling melengkapi.
+            <br><br>Mari kita wujudkan mimpi-mimpi kita bersama. Aku mencintaimu selalu, dan aku akan selalu menyayangimu.
+            <br><br>Dariku Untuk Kesayangankuuuuu🫂
+            </p>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+
+  // Media Links 
+  images: [
+    "https://drive.google.com/file/d/1yRSIj3JikB3GjVdU8nJTRDIxV5MNWJew/view?usp=drivesdk" 
+    "https://drive.google.com/file/d/19TWJVUbaWVcLpWm0Ip5B2WT4Q99K3sBU/view?usp=drivesdk"
+    "https://drive.google.com/file/d/1GTaEfW2OAN7wgiquJD1T58lCedNh4KPO/view?usp=drivesdk"
+    "https://drive.google.com/file/d/1hAmQNa_W2g6TnavVKtsIWdvQR1dJBOs5/view?usp=drivesdk"
+  ],
+  
+  // Video
+  videoUrl: "https://vt.tiktok.com/ZSxn3uubY/", 
+  
+  // Musik Latar (URL file .mp3)
+  musicUrl: "https://open.spotify.com/track/0tCr7DoUBSdtdSl0rxZmct?si=BTGRLbR3Qb2GAKTb9ACq5g", // Placeholder
+};
+
+export const theme = {
+  primary: "#FF4D6D", // Merah Muda Romantis
+  secondary: "#4D7CFE", // Biru Elegan
+  white: "#FFFFFF",
+  bg: "#FFF0F3", // Very light red/pink background
+};
+"use client";
+
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Heart, Lock, Music, Play, Pause, Volume2, Share2, Download, Expand, Camera, Video, Clock, MapPin } from "lucide-react";
+import Confetti from "canvas-confetti";
+import QRCode from "react-qrcode";
+import { siteConfig, theme } from "../data/config";
+
+// --- Komponen: Background elements ---
+const FloatingHearts = () => {
+  const hearts = Array.from({ length: 15 });
+  return (
+    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+      {hearts.map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute text-rose-400"
+          initial={{ y: "110vh", x: `${Math.random() * 100}vw`, opacity: 0 }}
+          animate={{ 
+            y: "-10vh", 
+            opacity: [0, 1, 0],
+            rotate: Math.random() * 360 
+          }}
+          transition={{ 
+            duration: Math.random() * 5 + 5, 
+            repeat: Infinity, 
+            ease: "linear",
+            delay: Math.random() * 5
+          }}
+        >
+          <Heart fill={theme.primary} className="w-6 h-6 opacity-50" />
+        </motion.div>
+      ))}
+    </div>
+  );
+};
+
+// --- Komponen: Love Counter ---
+const LoveCounter = ({ targetDate }: { targetDate: string }) => {
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const start = new Date(targetDate).getTime();
+      const now = new Date().getTime();
+      const diff = now - start;
+
+      if (diff > 0) {
+        setTimeLeft({
+          days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+          minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
+          seconds: Math.floor((diff % (1000 * 60)) / 1000),
+        });
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [targetDate]);
+
+  return (
+    <div className="flex gap-4 justify-center my-8">
+      {Object.entries(timeLeft).map(([unit, value]) => (
+        <div key={unit} className="flex flex-col items-center bg-white/80 backdrop-blur-sm p-3 rounded-xl shadow-lg w-20 border-2 border-rose-100">
+          <span className="text-2xl font-bold text-rose-500">{String(value).padStart(2, "0")}</span>
+          <span className="text-xs uppercase text-gray-500 font-medium">{unit}</span>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+// --- Komponen: Music Player ---
+const MusicPlayer = ({ url }: { url: string }) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  const toggle = () => {
+    if (audioRef.current) {
+      if (isPlaying) audioRef.current.pause();
+      else audioRef.current.play();
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  return (
+    <div className="fixed bottom-6 right-6 z-50">
+      <motion.div 
+        whileHover={{ scale: 1.1 }} 
+        whileTap={{ scale: 0.9 }}
+        className="bg-white/90 p-4 rounded-full shadow-2xl cursor-pointer border-2 border-rose-400"
+        onClick={toggle}
+      >
+        {isPlaying ? <Pause className="text-rose-500 w-6 h-6" /> : <Music className="text-rose-500 w-6 h-6" />}
+      </motion.div>
+      <audio ref={audioRef} src={url} loop />
+    </div>
+  );
+};
+
+// --- Main Page ---
+export default function Home() {
+  const [loading, setLoading] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
+  const [passwordInput, setPasswordInput] = useState("");
+  const [error, setError] = useState(false);
+
+  // Handle Loading Screen
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 3000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Handle Login
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (passwordInput === siteConfig.password) {
+      setIsLogin(true);
+      Confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: [theme.primary, theme.secondary, '#FFD700']
+      });
+    } else {
+      setError(true);
+      setTimeout(() => setError(false), 2000);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="h-screen w-full flex flex-col items-center justify-center bg-gradient-to-b from-pink-50 to-white">
+        <motion.div
+          animate={{ scale: [1, 1.2, 1] }}
+          transition={{ repeat: Infinity, duration: 1.5 }}
+          className="text-6xl text-rose-500 mb-8"
+        >
+          <Heart fill={theme.primary} />
+        </motion.div>
+        <h2 className="text-xl font-light text-gray-600 animate-pulse">
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Confession</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Click the button to see my feelings for you</h1>
+        <button id="revealButton">Reveal</button>
+        <div id="heartContainer" class="hidden">
+            <div class="heart"></div>
+            <p>I love you Tyo!</p>
+        </div>
+    </div>
+</body>
+<script>
+    document.getElementById('revealButton').addEventListener('click', function() {
+        document.getElementById('heartContainer').classList.remove('hidden');
+    });
+</script>
+</html>
